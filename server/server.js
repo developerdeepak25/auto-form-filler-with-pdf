@@ -40,12 +40,12 @@ app.post("/api/extract", upload.single("resume"), async (req, res) => {
     }
     const extractedText = await extractTextFromPdf(req.file);
 
-//     const prompt = `
-// You are a resume parsing assistant. Extract and structure the following information from this text in JSON format with these keys: 
-// "fullname", "email", "phone", "address", "skills", "experience", "education". If a key's value is missing, set it as null. If any other problem occurs return an object with defined keys and null values. be precie on interpreting the text return values for key if u are sure they are  related to the key for if there is little chance of them being related to the key then set it as null. add to key if there us surity that the value is related to the key. and just return the json object only no need for formatting just return the json object text only.
-// Here is the text:
-// ${extractedText}
-// `;
+    //     const prompt = `
+    // You are a resume parsing assistant. Extract and structure the following information from this text in JSON format with these keys:
+    // "fullname", "email", "phone", "address", "skills", "experience", "education". If a key's value is missing, set it as null. If any other problem occurs return an object with defined keys and null values. be precie on interpreting the text return values for key if u are sure they are  related to the key for if there is little chance of them being related to the key then set it as null. add to key if there us surity that the value is related to the key. and just return the json object only no need for formatting just return the json object text only.
+    // Here is the text:
+    // ${extractedText}
+    // `;
 
     const prompt = generatePrompt(extractedText);
 
@@ -57,11 +57,11 @@ app.post("/api/extract", upload.single("resume"), async (req, res) => {
       structuredData = JSON.parse(result.response.text());
       console.log("🚀 ~ app.post ~ structuredData 1:", structuredData);
     } catch (error) {
-        console.log('error come in the parsing');
-        structuredData = predefinedKeys.reduce(
-            (acc, key) => ({ ...acc, [key]: null }),
-            {}
-        );
+      console.log("error come in the parsing");
+      structuredData = predefinedKeys.reduce(
+        (acc, key) => ({ ...acc, [key]: null }),
+        {}
+      );
     }
     console.log("🚀 ~ app.post ~ structuredData 2:", structuredData);
 
